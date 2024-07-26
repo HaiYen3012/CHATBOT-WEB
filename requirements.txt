@@ -1,0 +1,25 @@
+# pip3 install -r requirements.txt
+ctransformers
+InstructorEmbedding
+langchain
+langchain-community
+llama-cpp-python
+os
+PyMuPDF
+google-generativeai
+faiss-cpu
+langchain_google_genai
+PyPDF2
+tempfile
+faiss-cpu
+unstructured
+unstructured[pdf]
+streamlit-option-menu
+sentence-transformers
+streamlit
+transformers
+chromadb
+librosa
+pypdfium2
+pyyaml
+streamlit-mic-recorder
