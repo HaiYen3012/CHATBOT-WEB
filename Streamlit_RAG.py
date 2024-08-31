@@ -104,7 +104,7 @@ def RAG_HOME():
 
 def RAG():
     # This is the first API key input; no need to repeat it in the main function.
-    api_key = ''
+    api_key = 'GOOGLE_API_KEY'
 
     def get_pdf_text(pdf_docs):
         text = ""
