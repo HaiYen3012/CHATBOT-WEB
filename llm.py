@@ -5,7 +5,7 @@ from prompt_templates import memory_prompt_template
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Initialize with Google API key and model name
-GOOGLE_API_KEY = ''
+GOOGLE_API_KEY = 'GOOGLE_API_KEY'
 llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3, google_api_key=GOOGLE_API_KEY)
 
 def create_chat_memory(chat_history):
