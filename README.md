@@ -1,103 +1,123 @@
-# CHAT WITH PDF
+# Streamlit AI Chat Assistant
 
-CHAT WITH PDF is a project aimed at developing intelligent chatbots capable of conversing and performing automated tasks. The project consists of two main chatbots:
-
-1. **Basic Chatbot**: This chatbot can answer frequently asked questions and perform automated tasks based on predefined programming rules.
-2. **Document-based Chatbot**: This advanced chatbot is capable of conversing about information extracted from user-provided documents, typically in PDF format. It utilizes AI technology and natural language processing to understand and extract information from the documents, enabling it to answer specific questions related to the content of the documents.
+This application is a versatile AI-powered assistant built with Streamlit that allows users to interact with an AI chatbot, ask questions from uploaded PDF documents, and perform image processing tasks. It leverages advanced models for Natural Language Processing (NLP) and utilizes Google Generative AI for embeddings and conversational responses.
 
 ## Table of Contents
 
-- [CHAT WITH PDF](#chat-with-pdf)
+- [Streamlit AI Chat Assistant](#streamlit-ai-chat-assistant)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Features](#features)
   - [Installation](#installation)
-  - [Using the LM Studio](#using-the-lm-studio)
+  - [Usage](#usage)
+  - [How to Use the Models](#how-to-use-the-models)
   - [Run the project](#run-the-project)
-  - [Video demo](#video-demo)
-  - [References](#references)
+  - [Configuration](#configuration)
+  - [Technical Overview](#technical-overview)
+  - [Contact](#contact)
 
 
 ## Introduction
 
-This project combines the power of with [Streamlit](https://discuss.streamlit.io/) , [FAISS](https://www.pinecone.io/learn/series/faiss/faiss-tutorial/), [LangChain](https://python.langchain.com/docs/get_started/introduction.html) and [LM Studio](https://lmstudio.ai/) to build:
-* Chatbot (ChatGPT like experience).
-* RAG ChatBot with documents/PDF.
+ * The RAG Chatbot operates by ingesting a collection of PDF files and, upon receiving a question, delivers an answer derived from the context within those files.
 
-The RAG Chatbot operates by ingesting a collection of PDF files and, upon receiving a question, delivers an answer derived from the context within those files.
+   ![dtb.png](picture/dtb.png)
 
-![dtb.png](picture/dtb.png)
+   The Memory Builder component processes PDFs from the uploaded files, breaking them into manageable sections and calculating their embeddings using Google Generative AI models. These embeddings are then stored in a FAISS vector database. When a user poses a question, the RAG ChatBot retrieves relevant sections from the embedding database and generates a final answer using a local LLM. Additionally, the chatbot remembers past interactions by leveraging chat history and context from previous conversations to improve its responses over time.
 
-The Memory Builder component processes PDFs from the docs folder, breaking them into sections and calculating their embeddings with the all-MiniLM-L6-v2 transformer, then storing them in a FAISS vector database. When a user poses a question, the RAG ChatBot fetches relevant sections from the embedding database. Then it generates the final answer with a local LLM. Additionally, the chatbot remembers past interactions, using chat history and context from previous conversations to enhance its responses.
+* The Chat with Image feature operates by analyzing uploaded images and responding to user questions based on the content within those images.
+The image processing component works by accepting user-uploaded images, which are then analyzed using advanced visual-question-answering (VQA) models like BLIP-VQA. This model processes the images and extracts relevant features, enabling the system to understand the visual context.
 
 ## Features
-* Chatbot: This chatbot features capabilities similar to ChatGPT, enabling users to engage in natural conversations and receive intelligent responses based on artificial intelligence. It can understand and respond to a wide range of content, from simple queries to complex discussions.
-* Chat with documents/PDF: The app is designed to cater to both professional and academic needs. It enables users to interact with their own PDF files locally on their device. By harnessing AI capabilities, the app can comprehend and interact with the content within these documents. This functionality allows users to extract insights, generate summaries, and engage in meaningful dialogue with the text contained in their PDF files. Overall, it serves as a valuable tool for personal use, empowering individuals to interact intelligently with their PDFs and derive meaningful information from them.
-
+* **Chat with AI**: Engage in a conversation with an AI assistant that remembers past sessions and provides contextual responses.
+* **Chat with PDF/RAG**: Upload PDF documents and ask questions directly related to the content, leveraging Google Generative AI for retrieving and answering based on document content.
+* **Chat with IMAGE**: Upload images and ask questions about them using the BLIP (Bootstrapping Language-Image Pre-training) model.
 
 ## Installation
-To install clone the repository and follow these simple steps:
-1. **Virtual Environment**: ```Python 3.12.3```
-2. **Install Requirements**: 
+To run this application, you need to have Python installed. Follow the steps below to set up and run the application:
+1. **Clone the repository:**: 
+   ```sh
+   git clone https://github.com/HaiYen3012/CHATBOT-WEB.git
+   cd CHATBOT-WEB
+   ```
+2. **Create a virtual environment (optional but recommended):**: 
+   ```sh
+   python -m venv venv
+   source venv/bin/activate  # On Windows use: venv\Scripts\activate
+   ```
+3. **Install the required packages:**: 
    ```sh
    pip install -r requirements.txt
    ```
-3. **Download LM Studio suitable for your device**: ```https://lmstudio.ai/```
-4. **Use the PDF file**: You can use the PDF document in the data directory. Alternatively, if you want to use another PDF file, please move that PDF file into the data directory of CHAT WITH PDF.
-5. **Enter commands in terminal to interact with a GUI**:
+4. **Enter commands in terminal to interact with a GUI**:
    ```sh
    streamlit run .\Streamlit_RAG.py
    ```
 
-## Using the LM Studio
-LM Studio supports the use of the following models such as:
-* Hugging Face Transformers
-* OpenAI GPT Models
-* Custom Models
-* Pre-trained Models
-* ONNX Models
-* TensorFlow and PyTorch Models
+## Usage
+1. **Home**
+   * Interact with the AI assistant in a chat format.
+   * View and manage chat sessions.
+   * Save chat histories to review later.
+2. **Chat with PDF/RAG**
+   * Upload one or multiple PDF documents.
+   * Extract and split text from PDFs.
+   * Create a vector store using Google Generative AI embeddings.
+   * Ask questions based on the uploaded PDF content.
+3. **Chat with IMAGE**
+   * Upload a image.
+   * Ask questions based on the uploaded Imgae content.
 
-To use LM Studio for CHAT WITH PDF, follow these steps:
-1. **Step1**: After downloading LM Studio to your computer, open the interface
-
-   ![dtb2.png](picture/dtb2.png)
-2. **Step2**: Click ```Download``` this Model and wait for it
-
-   ![dtb3.png](picture/dtb3.png)
-3. **Step3**: Then, select ```Local Server``` in the left register. In ```Select a model to load```, select the model you just loaded. Once loaded, this is the interface:
-
-   ![dtb4.png](picture/dtb4.png)
-
-In this way, you have completed installing LM Studio and the model to run the project.
-
-Before proceeding, please obtain the ```base_url``` and ```base_url``` from LM Studio on your computer and replace .`\Streamlit_RAG` as follows:
-
-```sh
-# Fetch base_url from LM Studio
-  llm = ChatOpenAI(base_url="<YOUR-BASE-URL>", api_key="<YOUR-API-KEY>")
-```
-
+## How to Use the Models
+1. **Access the HuggingFace Models Page**: Visit https://huggingface.co/models to view the list of available models.
+2. **Choose a Suitable Model**: You can use the search bar to find [models](https://huggingface.co/docs/transformers/v4.29.1/en/model_doc/blip).
+3. **Download Instructions**: On the selected model's page, you will find detailed instructions on how to download and use the model with the HuggingFace Transformers library. For example:
+   ```sh
+   from transformers import BlipProcessor, BlipForQuestionAnswering
+   model = BlipForQuestionAnswering.from_pretrained("Salesforce/blip-vqa-base")
+   processor = BlipProcessor.from_pretrained("Salesforce/blip-vqa-base")
+   ```
+4. **Customize and Run the Model**: Follow the instructions to configure and integrate the model into your code according to your application's needs.
+   
 ## Run the project
-* Interface of Chatbot:
-
-  ![dtb5.png](picture/dtb5.png)
 * Chatbot activities:
 
-  ![dtb6.png](picture/dtb6.png)
-* Chat session history June 22, 2024 at 21:13:31:
+  ![dt1.png](picture/dt1.png)
+* Chat session history 2024/08/30 at 23:45:
 
-  ![dtb7.png](picture/dtb7.png)
-* Interface of Chatbot RAG:
-
-  ![dtb8.png](picture/dtb8.png)
+  ![dt4.png](picture/dt4.png)
 * Chatbot RAG's behavior when uploading a PDF file:
 
-  ![dtb9.png](picture/dtb9.png)
+  ![dt2.png](picture/dt2.png)
   Here is a piece of content containing the answer to the question "What was the first State in Vietnam" in the uploaded PDF file:
   
   ![dtb10.png](picture/dtb10.png)
+* Chat with Image:
 
-## References
-* [Connecting the model from LM Studio](https://www.youtube.com/watch?v=olscAhDZFLM)
-* [Chatbot Development](https://github.com/Leon-Sander/local_multimodal_ai_chat/tree/main)
+  ![dt3.png](picture/dt3.png)
+
+## Configuration
+Ensure the Google API key is properly set up in the code for [Google Generative AI integrations](https://makersuite.google.com/app/apikey).
+```sh
+GOOGLE_API_KEY = 'GOOGLE_API_KEY'
+```
+## Technical Overview
+* **Streamlit**: Web application framework for interactive UI.
+* **PyPDF2**: Extract text from PDFs for question answering.
+* **FAISS**: Vector database for efficient similarity searches.
+* **Google Generative AI**: Provides embeddings and chat functionalities.
+* **BLIP (Salesforce/blip-vqa-base)**: Vision-Language model for image question answering.
+* **Python**: Main programming language for backend processing.
+  
+## Contact
+<div align="center">
+  <a href="https://www.facebook.com/profile.php?id=100039096104296">
+  <img src="https://img.shields.io/badge/Facebook-%233b5998.svg?&style=for-the-badge&logo=facebook&logoColor=white" alt="Facebook" style="margin-bottom: 5px;"/>
+  </a>
+  <a href="https://www.linkedin.com/in/y%E1%BA%BFn-l%C3%AA-h%E1%BA%A3i-5625662ab/">
+    <img src="https://img.shields.io/badge/LinkedIn-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" style="margin-bottom: 5px;"/>
+  </a>
+  <a href="https://github.com/HaiYen3012">
+    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" style="margin-bottom: 5px;"/>
+  </a>
+</div>

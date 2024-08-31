@@ -11,7 +11,10 @@ from streamlit_option_menu import option_menu
 from llm import load_normal_chain
 from htr import save_chat_history_json, get_timestamp, load_chat_history_json
 from langchain.memory import StreamlitChatMessageHistory
+from image import image_process
 import yaml
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+
 
 with open("config.yaml", "r") as f:
     config = yaml.safe_load(f)
@@ -33,18 +36,18 @@ def track_index():
     st.session_state.session_index_tracker = st.session_state.session_key
 
 def save_chat_history():
-    # Kiểm tra xem history có dữ liệu hay không
+    # Check if there is data in the history
     if st.session_state.history != []:
-        # Nếu đang trong phiên làm việc mới ("New_chat")
+        # If currently in a new session ("New_chat")
         if st.session_state.session_key == "New_chat":
-            # Tạo một session key mới dựa trên thời gian hiện tại
+            # Create a new session key based on the current time
             st.session_state.new_session_key = get_timestamp() + ".json"
             file_path = os.path.join(config["chat_history_path"], st.session_state.new_session_key)
         else:
-            # Sử dụng session key hiện tại nếu không phải là phiên mới
+            # Use the current session key if not a new session
             file_path = os.path.join(config["chat_history_path"], st.session_state.session_key)
         
-        # Lưu lịch sử trò chuyện vào tệp JSON
+        # Save chat history to a JSON file
         save_chat_history_json(st.session_state.history, file_path)
 
 def RAG_HOME():
@@ -52,11 +55,11 @@ def RAG_HOME():
     chat_container = st.container()
     st.sidebar.title("Chat Sessions")
 
-    # Thêm "New_chat" vào danh sách các phiên trò chuyện
+    # Add 'New_chat' to the list of chat sessions
     chat_sessions = ["New_chat"] + os.listdir(config["chat_history_path"])
     print(chat_sessions)
 
-    # Khởi tạo các biến trạng thái phiên nếu chưa tồn tại
+    # Initialize session state variables if they do not already exist
     if "send_input" not in st.session_state:
         st.session_state.session_key = "New_chat"
         st.session_state.send_input = False
@@ -72,11 +75,11 @@ def RAG_HOME():
     st.sidebar.selectbox("Select a chat session", chat_sessions, key="session_key", index=index, on_change=track_index)
 
     if st.session_state.session_key != "New_chat":
-        # Nếu session_key không phải là "New_chat"
+        # If session_key is not 'New_chat'
         file_path = os.path.join(config["chat_history_path"], st.session_state.session_key)
         st.session_state.history = load_chat_history_json(file_path)
     else:
-        # Nếu session_key là "New_chat", thiết lập history là một danh sách rỗng
+        # If session_key is 'New_chat', set history to an empty list
         st.session_state.history = []
 
     chat_history = StreamlitChatMessageHistory(key="history")
@@ -104,7 +107,7 @@ def RAG_HOME():
 
 def RAG():
     # This is the first API key input; no need to repeat it in the main function.
-    api_key = 'AIzaSyCemdWuMWjE8ckf2B_jGc2DGEfGeL5YlXU'
+    api_key = 'GOOGLE_API_KEY'
 
     def get_pdf_text(pdf_docs):
         text = ""
@@ -173,6 +176,6 @@ def streamlit_ui():
     elif choice == 'Chat with PDF/RAG':
         RAG()
     elif choice == 'Chat with IMAGE':
-        RAG()
+        image_process()
 
 streamlit_ui()
